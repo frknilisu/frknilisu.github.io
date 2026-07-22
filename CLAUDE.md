@@ -56,7 +56,8 @@ Front matter alanları: `title`, `date`, `tags`, `slug`.
 Slug ASCII olacak — Türkçe karakterler dönüştürülür: ı→i, ş→s, ğ→g, ü→u, ö→o, ç→c.
 Kısa tutulsun, başlığın tamamı olmak zorunda değil.
 
-Etiket listesi kapalı. Sadece şunlar: `deneme`, `iman`, `teknik`, `hayat`, `okuma`.
+Etiket listesi kapalı. Sadece şunlar: `deneme`, `iman`, `teknik`, `hayat`, `okuma`,
+`parfüm`.
 Yeni etiket ancak Furkan açıkça isterse eklenir. Etiket enflasyonu arşivi bozar.
 
 ## Yazı üslubu
