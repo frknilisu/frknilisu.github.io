@@ -29,12 +29,28 @@ otomatik yayına çıkar.
 ├── content/posts/     yayındaki yazılar
 ├── drafts/            olgunlaşmamış taslaklar (Hugo build etmez)
 ├── fikirler.md        ham fikir kutusu
+├── layouts/           siteyi çizen Hugo şablonları (temayı ezer)
+├── static/css/        bootstrap.min.css (yerel) + custom.css
 ├── static/img/        görseller
 └── CLAUDE.md
 ```
 
 `drafts/` ve `fikirler.md` bilerek `content/` dışında. Yayınlanmasınlar ama git'te
 dursunlar diye.
+
+## Görünüm
+
+Site Bootstrap 5 (CSS-only) üzerine kurulu. Bootstrap `static/css/bootstrap.min.css`
+içinde yerelde duruyor, CDN yok — dış bağımlılık istemiyoruz. Görsel işi `layouts/`
+altındaki şablonlarla ve `static/css/custom.css` (renk/tipografi aksanları) üzerinden
+yapılıyor; bu şablonlar bearblog temasını eziyor.
+
+Değişmeyen ilke: **JavaScript yok, çerez yok, analytics yok, yorum yok.** Bootstrap'ın
+JS bileşenleri (dropdown, modal, mobil menü açması vb.) kullanılmıyor. Tasarımı
+zenginleştirmek serbest ama bunu bozan bir şey ekleme.
+
+Görsel/fotoğraf uydurulmaz. Görsel gerekiyorsa Furkan sağlar; o gelene kadar tasarım
+CSS ile (renk, kart, tipografi) taşınır.
 
 ## İş akışı
 
@@ -86,8 +102,9 @@ dağınık görünür.
   Furkan'a doğrulat. Doğrulanmamış hiçbir nakil yazıya girmez. Bu konuda tereddüt
   edersen alıntıyı tamamen çıkar.
 - İstenmeden yazı yazma, istenmeden yayınlama.
-- Dizin yapısını yeniden düzenleme, tema özelleştirmesine girişme, istenmeyen
-  özellik ekleme.
+- Dizin yapısını gereksiz yere değiştirme, istenmeyen özellik ekleme. Görünüm
+  değişikliği için "Görünüm" bölümündeki sınırlara uy: JavaScript, çerez, analytics
+  girmez.
 
 ## Yayın öncesi kontrol
 
