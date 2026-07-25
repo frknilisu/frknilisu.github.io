@@ -1,0 +1,145 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/* ---- Tasarım anahtarları: Ferah & sıcak ---- */
+@theme {
+  --color-paper: #faf9f7;
+  --color-paper-2: #f4efe8;
+  --color-ink: #26211c;
+  --color-body: #35312a;
+  --color-muted: #6f6659;
+  --color-clay: #c2603f;
+  --color-clay-dark: #a8492a;
+  --color-line: #ece7df;
+
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: "Bricolage Grotesque Variable", "Inter Variable", ui-sans-serif, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  ::selection {
+    background: color-mix(in srgb, var(--color-clay) 22%, transparent);
+  }
+}
+
+/* Küçük büyük harf üst-etiket (kicker) */
+.kicker {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-clay-dark);
+}
+
+/* ---- Uzun metin (Tailwind Typography üzerine sıcak ton) ---- */
+.prose {
+  --tw-prose-body: var(--color-body);
+  --tw-prose-headings: var(--color-ink);
+  --tw-prose-links: var(--color-clay-dark);
+  --tw-prose-bold: var(--color-ink);
+  --tw-prose-quotes: var(--color-ink);
+  --tw-prose-quote-borders: var(--color-clay);
+  --tw-prose-hr: var(--color-line);
+  --tw-prose-th-borders: #ddd4c7;
+  --tw-prose-td-borders: #ece5d9;
+  --tw-prose-captions: var(--color-muted);
+  --tw-prose-code: var(--color-clay-dark);
+  font-size: 1.09rem;
+  line-height: 1.75;
+}
+
+.prose :where(h2, h3, h4) {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.prose :where(h2) {
+  margin-top: 2.3em;
+  font-size: 1.6rem;
+}
+/* Başlıkların önünde kısa kiremit çizgi — göze çarpsın */
+.prose :where(h2)::before {
+  content: "";
+  display: block;
+  width: 2.5rem;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--color-clay);
+  margin-bottom: 0.75rem;
+}
+.prose :where(h3) {
+  color: var(--color-clay-dark);
+  font-size: 1.28rem;
+  margin-top: 1.9em;
+}
+
+/* Açılış paragrafında drop-cap */
+.prose > p:first-of-type::first-letter {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 3.1em;
+  line-height: 0.78;
+  float: left;
+  margin: 0.06em 0.12em 0 0;
+  color: var(--color-clay);
+}
+
+.prose :where(blockquote) {
+  font-style: normal;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1.15rem;
+  border-left-width: 3px;
+  background: color-mix(in srgb, var(--color-clay) 6%, transparent);
+  border-radius: 0 0.4rem 0.4rem 0;
+  padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
+}
+.prose :where(blockquote p:first-of-type)::before,
+.prose :where(blockquote p:last-of-type)::after {
+  content: "";
+}
+
+.prose :where(hr) {
+  width: 4rem;
+  margin-left: auto;
+  margin-right: auto;
+  border-top-width: 2px;
+  border-color: var(--color-clay);
+  opacity: 0.5;
+}
+
+/* Tablolar */
+.prose :where(table) {
+  font-size: 0.98rem;
+}
+.prose :where(thead) {
+  background: var(--color-paper-2);
+}
+.prose :where(thead th) {
+  font-family: var(--font-display);
+  color: var(--color-clay-dark);
+}
+
+/* Bağlantı altı çizgi mesafesi */
+.prose :where(a) {
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+
+@media (max-width: 640px) {
+  .prose > p:first-of-type::first-letter {
+    font-size: 2.6em;
+  }
+}

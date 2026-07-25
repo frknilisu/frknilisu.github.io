@@ -1,0 +1,32 @@
+---
+const nav = [
+  { name: "Yazılar", href: "/posts/" },
+];
+const path = Astro.url.pathname;
+---
+
+<header class="border-b border-line/80 bg-paper/85 backdrop-blur sticky top-0 z-20">
+  <div class="mx-auto max-w-4xl px-5 h-16 flex items-center justify-between">
+    <a href="/" class="font-display font-semibold text-ink text-lg tracking-tight hover:text-clay-dark transition-colors">
+      Furkan İlisu
+    </a>
+    <nav class="flex items-center gap-6 text-[0.95rem]">
+      {
+        nav.map((item) => {
+          const active = path === item.href;
+          return (
+            <a
+              href={item.href}
+              class:list={[
+                "font-medium transition-colors",
+                active ? "text-clay-dark" : "text-muted hover:text-ink",
+              ]}
+            >
+              {item.name}
+            </a>
+          );
+        })
+      }
+    </nav>
+  </div>
+</header>

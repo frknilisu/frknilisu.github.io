@@ -14,30 +14,29 @@ concurrency:
   group: pages
   cancel-in-progress: false
 
+env:
+  ASTRO_TELEMETRY_DISABLED: "1"
+
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      HUGO_VERSION: 0.154.5
     steps:
-      - name: Install Hugo
-        run: |
-          wget -O hugo.deb https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_linux-amd64.deb
-          sudo dpkg -i hugo.deb
-
       - uses: actions/checkout@v4
-        with:
-          submodules: recursive
 
-      - uses: actions/configure-pages@v5
-        id: pages
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install
+        run: npm ci
 
       - name: Build
-        run: hugo --minify --baseURL "${{ steps.pages.outputs.base_url }}/"
+        run: npm run build
 
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: ./public
+          path: ./dist
 
   deploy:
     needs: build

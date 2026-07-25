@@ -1,0 +1,50 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../layouts/Base.astro";
+import PostCard from "../components/PostCard.astro";
+
+const posts = (await getCollection("posts"))
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const latest = posts.slice(0, 9);
+---
+
+<Base>
+  <!-- Hero -->
+  <section class="relative overflow-hidden">
+    <div
+      class="pointer-events-none absolute -top-24 right-[-10%] h-[420px] w-[420px] rounded-full blur-3xl"
+      style="background: radial-gradient(closest-side, rgba(194,96,63,0.18), transparent 70%);"
+    >
+    </div>
+    <div class="relative mx-auto max-w-4xl px-5 py-20 md:py-28">
+      <p class="kicker mb-4">Kişisel blog</p>
+      <h1
+        class="font-display text-4xl md:text-6xl font-bold tracking-tight text-ink"
+      >
+        Furkan İlisu
+      </h1>
+      <div class="mt-5 h-1 w-14 rounded-full bg-clay"></div>
+      <p class="mt-6 max-w-xl text-lg md:text-xl leading-relaxed text-muted">
+        Kişisel deneme arşivi. Hayat, düşünce, iman, ara ara teknik meseleler.
+      </p>
+    </div>
+  </section>
+
+  <!-- Son yazılar -->
+  <section class="mx-auto max-w-4xl px-5 pb-8">
+    <div class="mb-7 flex items-baseline justify-between">
+      <h2 class="font-display text-2xl font-semibold text-ink">Son yazılar</h2>
+      <a
+        href="/posts/"
+        class="text-sm font-medium text-clay-dark hover:text-clay transition-colors"
+      >
+        Tümü →
+      </a>
+    </div>
+    <div class="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+      {latest.map((post) => <PostCard post={post} />)}
+    </div>
+  </section>
+</Base>

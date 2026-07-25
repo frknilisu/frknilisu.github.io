@@ -1,0 +1,46 @@
+---
+import { getCollection } from "astro:content";
+
+interface Props {
+  series: string;
+  currentSlug: string;
+}
+const { series, currentSlug } = Astro.props;
+
+const items = (await getCollection("posts"))
+  .filter((p) => !p.data.draft && p.data.series === series)
+  .sort((a, b) => (a.data.series_order ?? 0) - (b.data.series_order ?? 0));
+---
+
+<aside class="mt-14 rounded-2xl border border-line bg-paper-2/70 p-6">
+  <p class="kicker mb-4">Bu yazı bir seriden · {series}</p>
+  <ol class="space-y-2.5">
+    {
+      items.map((item, i) => {
+        const current = item.data.slug === currentSlug;
+        return (
+          <li class="flex gap-3 text-[0.97rem]">
+            <span
+              class:list={[
+                "font-display font-semibold tabular-nums",
+                current ? "text-clay" : "text-muted/70",
+              ]}
+            >
+              {String(i + 1).padStart(2, "0")}
+            </span>
+            {current ? (
+              <span class="font-medium text-ink">{item.data.title}</span>
+            ) : (
+              <a
+                href={`/${item.data.slug}/`}
+                class="text-body hover:text-clay-dark transition-colors"
+              >
+                {item.data.title}
+              </a>
+            )}
+          </li>
+        );
+      })
+    }
+  </ol>
+</aside>

@@ -6,51 +6,66 @@ Furkan'ın kişisel deneme/blog arşivi. Aklına gelen fikirler — hayat felsef
 meseleler, ara ara teknik konular — sohbet içinde olgunlaşır, burada yazıya döner ve
 kalıcı olur. Sohbet geçmişi kaybolur; bu repo kaybolmaz.
 
-Site Hugo ile derlenir, GitHub Pages'te yayınlanır. `main` dalına push atıldığında
-otomatik yayına çıkar.
+Site Astro ile derlenir, GitHub Pages'te yayınlanır. `main` dalına push atıldığında
+GitHub Actions build alıp otomatik yayına çıkarır.
 
-## Kurulum hedefi
+Astro sadece derleme aracı — ürettiği sayfalar tamamen statik HTML/CSS, tarayıcıya
+JavaScript göndermiyor (island kullanılmıyor). "JavaScript yok" ilkesi böyle korunuyor.
 
-İlk oturumda kurulacaklar:
+## Yapı ve teknoloji
 
-- Hugo (extended sürüm gerekmiyor, sade tema kullanılacak)
-- Tema: `janraasch/hugo-bearblog` — git submodule olarak eklensin. Erişilemiyorsa
-  benzer minimal, JavaScript'siz bir tema seç ve hangisini seçtiğini söyle.
-- GitHub Actions workflow: `main`'e push → Hugo build → GitHub Pages deploy
-- Repo adı `<kullanıcıadı>.github.io` olsun ki site kök adreste çıksın ve `baseURL`
-  sade kalsın
-- Site dili Türkçe (`languageCode = "tr"`)
-- Analytics yok, çerez yok, JavaScript yok, yorum sistemi yok
+- **Astro** (statik çıktı, `dist/`). `npm run dev` yerelde önizleme, `npm run build` derler.
+- **Tailwind CSS v4** — `@tailwindcss/vite` eklentisiyle. Ayrı config dosyası yok;
+  tasarım anahtarları `src/styles/global.css` içinde `@theme` bloğunda.
+- **@tailwindcss/typography** (`prose`) — uzun metni biçimlendiren asıl şey. Yazı
+  içeriğinin güzel görünmesi buradan geliyor.
+- **Fontlar Fontsource ile yerelde** (`@fontsource-variable/*`), CDN yok — dış istek
+  yok. Başlık: Bricolage Grotesque, gövde/arayüz: Inter.
+- Repo adı `frknilisu.github.io` → site kök adreste, `base = "/"`.
+- Site dili Türkçe (`<html lang="tr">`, tarihler `tr-TR`).
+- **Analytics yok, çerez yok, client-side JavaScript yok, yorum sistemi yok.**
 
 ## Dizin yapısı
 
 ```
 .
-├── content/posts/     yayındaki yazılar
-├── drafts/            olgunlaşmamış taslaklar (Hugo build etmez)
-├── fikirler.md        ham fikir kutusu
-├── layouts/           siteyi çizen Hugo şablonları (temayı ezer)
-├── static/css/        bootstrap.min.css (yerel) + custom.css
-├── static/img/        görseller
+├── src/
+│   ├── content/posts/   yayındaki yazılar (markdown + front matter)
+│   ├── content.config.ts  koleksiyon şeması (front matter doğrulama)
+│   ├── pages/           rotalar: index, posts/, [slug], etiket/[tag], rss.xml
+│   ├── layouts/Base.astro   HTML iskeleti, head, header/footer
+│   ├── components/      Header, Footer, PostCard, SeriesBox
+│   ├── styles/global.css   Tailwind + palet (@theme) + prose dokunuşları
+│   └── lib/utils.ts     Türkçe tarih, okuma süresi
+├── public/             olduğu gibi servis edilen statik dosyalar (görseller vb.)
+├── drafts/             olgunlaşmamış taslaklar (Astro build etmez)
+├── fikirler.md         ham fikir kutusu
+├── astro.config.mjs
 └── CLAUDE.md
 ```
 
-`drafts/` ve `fikirler.md` bilerek `content/` dışında. Yayınlanmasınlar ama git'te
+URL biçimi Hugo'daki gibi korundu: yazılar `/slug/`, etiketler `/etiket/tag/`.
+
+`drafts/` ve `fikirler.md` bilerek `src/` dışında. Yayınlanmasınlar ama git'te
 dursunlar diye.
 
 ## Görünüm
 
-Site Bootstrap 5 (CSS-only) üzerine kurulu. Bootstrap `static/css/bootstrap.min.css`
-içinde yerelde duruyor, CDN yok — dış bağımlılık istemiyoruz. Görsel işi `layouts/`
-altındaki şablonlarla ve `static/css/custom.css` (renk/tipografi aksanları) üzerinden
-yapılıyor; bu şablonlar bearblog temasını eziyor.
+Tema "Ferah & sıcak": sıcak beyaz zemin (`--color-paper #faf9f7`), koyu mürekkep
+metin, tek kiremit aksan (`--color-clay #c2603f`). Palet ve tipografi
+`src/styles/global.css` içindeki `@theme` bloğunda; oradan değiştir.
 
-Değişmeyen ilke: **JavaScript yok, çerez yok, analytics yok, yorum yok.** Bootstrap'ın
-JS bileşenleri (dropdown, modal, mobil menü açması vb.) kullanılmıyor. Tasarımı
-zenginleştirmek serbest ama bunu bozan bir şey ekleme.
+Görsel zenginlik hazır kütüphaneden geliyor — el ile CSS yazmaya girişme. Uzun metin
+`prose` (Tailwind Typography) ile biçimleniyor; üstüne birkaç sıcak dokunuş var
+(başlık önü kısa aksan çizgi, açılış paragrafında drop-cap, pull-quote). Bunları
+`global.css` içindeki `.prose` düzenlemelerinden ayarla.
 
-Görsel/fotoğraf uydurulmaz. Görsel gerekiyorsa Furkan sağlar; o gelene kadar tasarım
-CSS ile (renk, kart, tipografi) taşınır.
+Değişmeyen ilke: **JavaScript yok, çerez yok, analytics yok, yorum yok.** Tasarımı
+zenginleştirmek serbest ama bu çizgiyi bozan bir şey (client JS, çerez, izleyici)
+ekleme.
+
+Görsel/fotoğraf uydurulmaz. Görsel gerekiyorsa Furkan sağlar; `public/img/` altına
+konur. O gelene kadar tasarım renk/tipografi/kart ile taşınır.
 
 ## İş akışı
 
@@ -62,12 +77,14 @@ genişletme, yazıya çevirmeye kalkma. Sadece kaydet.
 **"taslak yaz"** → Konuşulan fikri deneme haline getir, `drafts/` altına yaz.
 Yayınlama.
 
-**"yayınla"** → Taslağı `content/posts/` altına taşı, front matter'ı tamamla, commit
-et, push et. Commit mesajı yazının başlığı olsun.
+**"yayınla"** → Taslağı `src/content/posts/` altına taşı, front matter'ı tamamla,
+`npm run build` ile derlenip derlenmediğini doğrula, commit et, push et. Commit mesajı
+yazının başlığı olsun.
 
 ## Yazı formatı
 
-Front matter alanları: `title`, `date`, `tags`, `slug`.
+Front matter alanları: `title`, `date`, `tags`, `slug`. İsteğe bağlı: `description`
+(kart/özet ve yazı başı için), seri yazılarında `series` + `series_order`.
 
 Slug ASCII olacak — Türkçe karakterler dönüştürülür: ı→i, ş→s, ğ→g, ü→u, ö→o, ç→c.
 Kısa tutulsun, başlığın tamamı olmak zorunda değil.
