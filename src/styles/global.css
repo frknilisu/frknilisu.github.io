@@ -159,6 +159,47 @@
   color: var(--color-clay-dark);
 }
 
+/* Satır içi kod / referans (ör. 6.1, V-nummer: ...) — küçük etiket görünümü.
+   Otomatik ters tırnakları kaldır, blok kodun içindekilere dokunma. */
+.prose :where(code)::before,
+.prose :where(code)::after {
+  content: "";
+}
+.prose :where(code):not(:where(pre code)) {
+  background: var(--color-paper-2);
+  padding: 0.12em 0.4em;
+  border-radius: 0.3rem;
+  font-size: 0.88em;
+  font-weight: 500;
+}
+
+/* Kod/şablon blokları — sıcak zemine oturan açık, çerçeveli kutu */
+.prose :where(pre) {
+  border: 1px solid var(--color-line);
+  border-radius: 0.55rem;
+  font-size: 0.84rem;
+  line-height: 1.6;
+}
+
+/* Yapılacaklar listesi (GFM task list) — kontrol kutuları */
+.prose :where(ul.contains-task-list) {
+  list-style: none;
+  padding-left: 0.15rem;
+}
+.prose :where(li.task-list-item) {
+  padding-left: 0.35rem;
+}
+.prose :where(li.task-list-item)::marker {
+  content: "";
+}
+.prose :where(input[type="checkbox"]) {
+  width: 1.05em;
+  height: 1.05em;
+  margin-right: 0.55em;
+  accent-color: var(--color-clay);
+  vertical-align: -0.13em;
+}
+
 /* Bağlantı altı çizgi mesafesi */
 .prose :where(a) {
   text-underline-offset: 3px;
