@@ -11,6 +11,9 @@ const posts = defineCollection({
     tags: z.array(z.string()).default([]),
     series: z.string().optional(),
     series_order: z.number().optional(),
+    // "deneme" (varsayılan) düz deneme düzeni; "rehber" teknik/başvuru dokümanı
+    // düzeni (drop-cap yok, içindekiler var).
+    kind: z.enum(["deneme", "rehber"]).optional().default("deneme"),
     draft: z.boolean().optional().default(false),
   }),
 });

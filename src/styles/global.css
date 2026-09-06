@@ -120,9 +120,36 @@
   opacity: 0.5;
 }
 
+/* ---- Rehber (teknik/başvuru dokümanı) düzeni ---- */
+/* Rehberlerde açılış paragrafı düz metindir: drop-cap istemiyoruz. */
+.prose-doc > p:first-of-type::first-letter {
+  font-family: inherit;
+  font-weight: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  float: none;
+  margin: 0;
+  color: inherit;
+}
+/* Numaralı başlıklar bölümleri zaten ayırıyor; ayrıca çizgiye gerek yok. */
+.prose-doc :where(hr) {
+  display: none;
+}
+/* Sabit başlık çubuğunun altında kalmasın diye çapa hedeflerine boşluk. */
+.prose :where(h2, h3) {
+  scroll-margin-top: 5rem;
+}
+
 /* Tablolar */
 .prose :where(table) {
   font-size: 0.98rem;
+}
+/* Geniş tablolar dar ekranda taşmasın, kendi içinde kayarak sığsın. */
+@media (max-width: 640px) {
+  .prose :where(table) {
+    display: block;
+    overflow-x: auto;
+  }
 }
 .prose :where(thead) {
   background: var(--color-paper-2);
