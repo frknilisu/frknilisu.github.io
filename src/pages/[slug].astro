@@ -25,8 +25,9 @@ const { Content, headings } = await render(post);
 const mins = readingTime(post.body);
 
 const isGuide = kind === "rehber";
-// İçindekiler: rehberlerde ana bölümler (h2)
-const toc = isGuide ? headings.filter((h) => h.depth === 2) : [];
+// İçindekiler: rehberlerde her zaman, denemede toc:true ise. Ana bölümler (h2).
+const showToc = isGuide || post.data.toc;
+const toc = showToc ? headings.filter((h) => h.depth === 2) : [];
 const kicker = isGuide ? "Rehber" : series ? `Seri · ${series}` : tags[0];
 ---
 

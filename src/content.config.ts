@@ -14,6 +14,8 @@ const posts = defineCollection({
     // "deneme" (varsayılan) düz deneme düzeni; "rehber" teknik/başvuru dokümanı
     // düzeni (drop-cap yok, içindekiler var).
     kind: z.enum(["deneme", "rehber"]).optional().default("deneme"),
+    // Uzun bir deneme için "İçindekiler" istenirse. Rehberlerde zaten var.
+    toc: z.boolean().optional().default(false),
     draft: z.boolean().optional().default(false),
   }),
 });
