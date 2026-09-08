@@ -84,14 +84,18 @@ yazının başlığı olsun.
 ## Yazı formatı
 
 Front matter alanları: `title`, `date`, `tags`, `slug`. İsteğe bağlı: `description`
-(kart/özet ve yazı başı için), seri yazılarında `series` + `series_order`.
+(kart/özet ve yazı başı için), seri yazılarında `series` + `series_order`. Düzen için
+`kind` (`deneme` varsayılan; `rehber` teknik/başvuru dokümanı düzeni — İçindekiler,
+drop-cap yok) ve `toc: true` (uzun bir denemeye de İçindekiler ekler).
 
 Slug ASCII olacak — Türkçe karakterler dönüştürülür: ı→i, ş→s, ğ→g, ü→u, ö→o, ç→c.
 Kısa tutulsun, başlığın tamamı olmak zorunda değil.
 
-Etiket listesi kapalı. Sadece şunlar: `deneme`, `iman`, `teknik`, `hayat`, `okuma`,
-`parfüm`.
-Yeni etiket ancak Furkan açıkça isterse eklenir. Etiket enflasyonu arşivi bozar.
+Etiket serbest — kapalı liste yok, sabit sayı yok. Yazının konusuna uygun etiketleri
+yaz. Tek teknik kural: etiket URL'e dönüştüğü için (`/etiket/tag/`) **boşluk olmaz** —
+çok kelimeli etiketi tireyle bağla (`esmaül-hüsna`). Türkçe harf sorun değil.
+Küçük harf kullan ve mevcut bir etiket işi görüyorsa yenisini uydurma (`sevgi` varken
+`muhabbet` açma) — bölünme olmasın diye, kısıt olsun diye değil.
 
 ## Yazı üslubu
 
@@ -126,7 +130,7 @@ dağınık görünür.
 ## Yayın öncesi kontrol
 
 - Front matter tam mı, slug ASCII mi
-- Etiket kapalı listeden mi
+- Etiketlerde boşluk var mı (tireye çevir), küçük harf mi
 - Yasak kalıplardan biri geçiyor mu
 - Yazıda konuşmada geçmeyen bir iddia var mı
 - Uydurulmuş kaynak var mı
